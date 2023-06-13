@@ -22,4 +22,11 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags:  ${{ secrets.DOCKERHUB_USERNAME }}/nginx:latest
+          tags:  ${{ secrets.DOCKERHUB_USERNAME }}/nginx:$CI_COMMIT_SHA
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          cp $GITHUB_WORKSPACE/.kubeconfig $HOME/.kube/config
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f kubernetes/deployment.yaml
