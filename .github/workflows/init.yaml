@@ -22,7 +22,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags:  ${{ secrets.DOCKERHUB_USERNAME }}/nginx:$CI_COMMIT_SHA
+          tags:  ${{ secrets.DOCKERHUB_USERNAME }}/nginx:latest
       - name: Configure kubeconfig
         run: |
           mkdir -p $HOME/.kube
