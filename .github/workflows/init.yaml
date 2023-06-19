@@ -23,10 +23,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags:  ${{ secrets.DOCKERHUB_USERNAME }}/nginx:latest
-      - name: Configure kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          cp $GITHUB_WORKSPACE/.kubeconfig $HOME/.kube/config
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f kubernetes/deployment.yaml
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+      - name: Try the cluster !
+        run: kubectl get pods -A
+      - name: Deploy to minikube
+        run:  kubectl apply -f kubernetes/deployment.yaml
